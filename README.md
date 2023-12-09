@@ -1,6 +1,6 @@
-# PHP Library Template
+# PHP Persistence
 
-Template to make libraries in PHP
+Library to manage persistence with dbal, elasticsearch, mongo...
 
 ## Make commands
 

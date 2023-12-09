@@ -1,9 +1,9 @@
 {
-    "name": "mikelooper/php-library-template",
+    "name": "mikelooper/persistence",
     "type": "library",
-    "description": "A template to create libraries",
-    "keywords": ["library"],
-    "homepage": "https://github.com/mikel00per/php-library-template",
+    "description": "Library to manage persistence with dbal, elasticsearch, mongo...",
+    "keywords": ["library", "doctrine", "criteria"],
+    "homepage": "https://github.com/mikel00per/persistence",
     "license": "MIT",
     "authors": [
         {
@@ -13,12 +13,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "PhpLibraryTemplate\\": "src/"
+            "Shared\\Infrastructure\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\PhpLibraryTemplate\\": "tests/"
+            "Tests\\Shared\\Infrastructure\\": "tests/"
         },
         "classmap": [
             "src/"
