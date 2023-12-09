@@ -1,0 +1,55 @@
+{
+    "name": "mikelooper/php-library-template",
+    "type": "library",
+    "description": "A template to create libraries",
+    "keywords": ["library"],
+    "homepage": "https://github.com/mikel00per/php-library-template",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "A. Miguel Morillo",
+            "email": "mike@l00per.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PhpLibraryTemplate\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\PhpLibraryTemplate\\": "tests/"
+        },
+        "classmap": [
+            "src/"
+        ]
+    },
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "mikelooper/code-style": "^0.0.1",
+        "phpunit/phpunit": "^10.4",
+        "vimeo/psalm": "^5.15"
+    },
+    "scripts": {
+        "test": [
+            "@analyze",
+            "@test:unit"
+        ],
+        "analyze": [
+            "@psalm",
+            "@lint"
+        ],
+        "test:unit": "phpunit --configuration tools/phpunit.xml --no-coverage",
+        "test:coverage": "phpunit --configuration tools/phpunit.xml --coverage-html tmp/coverage",
+        "psalm": "psalm -c tools/psalm.xml",
+        "lint": "ecs check -c tools/ecs.php",
+        "lint:fix": "ecs check --fix -c tools/ecs.php"
+    },
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true,
+        "optimize-autoloader": true
+    }
+}
