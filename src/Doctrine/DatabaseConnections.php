@@ -13,27 +13,27 @@ use function Lambdish\Phunctional\each;
 
 final class DatabaseConnections
 {
-	private readonly array $connections;
+    private readonly array $connections;
 
-	public function __construct(iterable $connections)
-	{
-		if (is_array($connections)) {
-			$this->connections = $connections;
-		} else {
-			$this->connections = iterator_to_array($connections);
-		}
-	}
+    public function __construct(iterable $connections)
+    {
+        if (is_array($connections)) {
+            $this->connections = $connections;
+        } else {
+            $this->connections = iterator_to_array($connections);
+        }
+    }
 
-	/**
-	 * @throws MappingException
-	 */
-	public function clear(): void
-	{
-		each(fn (EntityManager $entityManager) => $entityManager->clear(), $this->connections);
-	}
+    /**
+     * @throws MappingException
+     */
+    public function clear(): void
+    {
+        each(fn (EntityManager $entityManager) => $entityManager->clear(), $this->connections);
+    }
 
-	public function truncate(): void
-	{
-		apply(new MySqlDatabaseCleaner(), array_values($this->connections));
-	}
+    public function truncate(): void
+    {
+        apply(new MySqlDatabaseCleaner(), array_values($this->connections));
+    }
 }
