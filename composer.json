@@ -31,7 +31,7 @@
         "mikelooper/ddd-cqrs": "^0"
     },
     "require-dev": {
-        "mikelooper/code-style": "^0.0.1",
+        "mikelooper/code-style": "^0",
         "phpunit/phpunit": "^10.4",
         "vimeo/psalm": "^5.15"
     },
