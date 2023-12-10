@@ -25,7 +25,10 @@
         ]
     },
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "doctrine/dbal": "^3",
+        "doctrine/orm": "^2",
+        "mikelooper/ddd-cqrs": "^0"
     },
     "require-dev": {
         "mikelooper/code-style": "^0.0.1",
