@@ -33,8 +33,8 @@
     },
     "require-dev": {
         "mikelooper/code-style": "^0",
-        "phpunit/phpunit": "^10.4",
-        "vimeo/psalm": "^5.15"
+        "phpunit/phpunit": "^10",
+        "vimeo/psalm": "^5"
     },
     "scripts": {
         "test": [
