@@ -21,10 +21,6 @@ use function Lambdish\Phunctional\dissoc;
 
 final class DoctrineEntityManagerFactory
 {
-    private static array $sharedPrefixes = [
-        __DIR__ . '/../../../Shared/Infrastructure/Persistence/Mappings' => 'Shared\Domain',
-    ];
-
     /**
      * @throws MissingMappingDriverImplementation|Exception
      */
@@ -88,7 +84,7 @@ final class DoctrineEntityManagerFactory
     {
         $config = ORMSetup::createConfiguration($isDevMode);
 
-        $config->setMetadataDriverImpl(new SimplifiedXmlDriver(array_merge(self::$sharedPrefixes, $contextPrefixes)));
+        $config->setMetadataDriverImpl(new SimplifiedXmlDriver($contextPrefixes));
 
         return $config;
     }

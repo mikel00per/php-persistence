@@ -1,0 +1,84 @@
+#!/usr/bin/env php
+
+<?php
+
+use Doctrine\DBAL\DriverManager;
+use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\Configuration\Connection\ExistingConnection;
+use Doctrine\Migrations\Configuration\Migration\ExistingConfiguration;
+use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\Metadata\Storage\TableMetadataStorageConfiguration;
+use Doctrine\Migrations\Tools\Console\Command\CurrentCommand;
+use Doctrine\Migrations\Tools\Console\Command\DiffCommand;
+use Doctrine\Migrations\Tools\Console\Command\DumpSchemaCommand;
+use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
+use Doctrine\Migrations\Tools\Console\Command\GenerateCommand;
+use Doctrine\Migrations\Tools\Console\Command\LatestCommand;
+use Doctrine\Migrations\Tools\Console\Command\ListCommand;
+use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
+use Doctrine\Migrations\Tools\Console\Command\RollupCommand;
+use Doctrine\Migrations\Tools\Console\Command\StatusCommand;
+use Doctrine\Migrations\Tools\Console\Command\SyncMetadataCommand;
+use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
+use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Shared\Infrastructure\DependencyInjection\ContainerFactory;
+use Shared\Infrastructure\Settings\SettingsInterface;
+use Symfony\Component\Console\Application;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+try {
+    $container = ContainerFactory::create(__DIR__ . '/../config/settings.php');
+    $settings = $container->get(SettingsInterface::class);
+    $entityManager = $container->get(EntityManager::class);
+
+    $connection = DriverManager::getConnection($settings->get('doctrine.database'));
+
+    $configuration = new Configuration();
+
+    $configuration->addMigrationsDirectory(
+        $settings->get('doctrine.db.namespace'),
+        $settings->get('doctrine.db.path')
+    );
+
+    $configuration->setAllOrNothing(true);
+    $configuration->setCheckDatabasePlatform(false);
+
+    $storageConfiguration = new TableMetadataStorageConfiguration();
+    $storageConfiguration->setTableName($settings->get('doctrine.db.table'));
+
+    $configuration->setMetadataStorageConfiguration($storageConfiguration);
+
+    $dependencyFactory = DependencyFactory::fromConnection(
+        new ExistingConfiguration($configuration),
+        new ExistingConnection($connection)
+    );
+
+    $cli = new Application('Doctrine Migrations');
+    $cli->setCatchExceptions(true);
+
+    $cli->addCommands([
+        new CurrentCommand($dependencyFactory),
+        new DiffCommand($dependencyFactory),
+        new DumpSchemaCommand($dependencyFactory),
+        new ExecuteCommand($dependencyFactory),
+        new GenerateCommand($dependencyFactory),
+        new LatestCommand($dependencyFactory),
+        new ListCommand($dependencyFactory),
+        new MigrateCommand($dependencyFactory),
+        new RollupCommand($dependencyFactory),
+        new StatusCommand($dependencyFactory),
+        new SyncMetadataCommand($dependencyFactory),
+        new UpToDateCommand($dependencyFactory),
+        new VersionCommand($dependencyFactory),
+    ]);
+
+    $cli->run();
+
+} catch (NotFoundExceptionInterface|ContainerExceptionInterface|Exception $e) {
+    var_dump($e->getMessage());
+}

@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+
+<?php
+
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Shared\Infrastructure\DependencyInjection\ContainerFactory;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+try {
+    $container = ContainerFactory::create(__DIR__ . '/../config/settings.php');
+    $entityManager = $container->get(EntityManager::class);
+    $singleManagerProvider = new SingleManagerProvider($entityManager);
+
+    ConsoleRunner::run($singleManagerProvider);
+
+} catch (NotFoundExceptionInterface|ContainerExceptionInterface|Exception $e) {
+
+}
