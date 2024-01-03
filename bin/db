@@ -41,15 +41,15 @@ try {
     $configuration = new Configuration();
 
     $configuration->addMigrationsDirectory(
-        $settings->get('doctrine.db.namespace'),
-        $settings->get('doctrine.db.path')
+        $settings->get('doctrine.migrations.namespace'),
+        $settings->get('doctrine.migrations.path')
     );
 
     $configuration->setAllOrNothing(true);
     $configuration->setCheckDatabasePlatform(false);
 
     $storageConfiguration = new TableMetadataStorageConfiguration();
-    $storageConfiguration->setTableName($settings->get('doctrine.db.table'));
+    $storageConfiguration->setTableName($settings->get('doctrine.migrations.table'));
 
     $configuration->setMetadataStorageConfiguration($storageConfiguration);
 
