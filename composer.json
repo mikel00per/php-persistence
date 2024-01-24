@@ -37,7 +37,10 @@
         "phpunit/phpunit": "^10",
         "vimeo/psalm": "^5"
     },
-    "bin": ["bin/doctrine", "bin/db"],
+    "bin": [
+        "bin/orm",
+        "bin/migrator"
+    ],
     "scripts": {
         "test": [
             "@analyze",

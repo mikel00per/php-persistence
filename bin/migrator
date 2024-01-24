@@ -36,20 +36,20 @@ try {
     $settings = $container->get(SettingsInterface::class);
     $entityManager = $container->get(EntityManager::class);
 
-    $connection = DriverManager::getConnection($settings->get('doctrine.database'));
+    $connection = DriverManager::getConnection($settings->get('orm.database'));
 
     $configuration = new Configuration();
 
     $configuration->addMigrationsDirectory(
-        $settings->get('doctrine.migrations.namespace'),
-        $settings->get('doctrine.migrations.path')
+        $settings->get('orm.migrations.namespace'),
+        $settings->get('orm.migrations.path')
     );
 
     $configuration->setAllOrNothing(true);
     $configuration->setCheckDatabasePlatform(false);
 
     $storageConfiguration = new TableMetadataStorageConfiguration();
-    $storageConfiguration->setTableName($settings->get('doctrine.migrations.table'));
+    $storageConfiguration->setTableName($settings->get('orm.migrations.table'));
 
     $configuration->setMetadataStorageConfiguration($storageConfiguration);
 
