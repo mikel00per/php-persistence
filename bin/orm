@@ -8,16 +8,25 @@ use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Shared\Infrastructure\DependencyInjection\ContainerFactory;
+use Shared\Infrastructure\DependencyInjection\File;
+use Shared\Infrastructure\Settings\SettingsInterface;
 
-require __DIR__ . '/../vendor/autoload.php';
+(@include __DIR__ . '/../vendor/autoload.php') || @include __DIR__ . '/../../../autoload.php';
 
 try {
-    $container = ContainerFactory::create(__DIR__ . '/../config/settings.php');
+    try {
+        $settingsArray = File::require(__DIR__ . '/../config/settings.php');
+    } catch (RuntimeException $e) {
+        $settingsArray = File::require(__DIR__ . '/../../../../config/settings.php');
+    }
+
+    $container = ContainerFactory::create($settingsArray);
+    $settings = $container->get(SettingsInterface::class);
     $entityManager = $container->get(EntityManager::class);
     $singleManagerProvider = new SingleManagerProvider($entityManager);
 
     ConsoleRunner::run($singleManagerProvider);
 
 } catch (NotFoundExceptionInterface|ContainerExceptionInterface|Exception $e) {
-
+    echo ($e->getMessage());
 }
