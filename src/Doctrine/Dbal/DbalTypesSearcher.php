@@ -50,17 +50,7 @@ final class DbalTypesSearcher
         return static function (array $totalNamespaces, string $path) use ($rootNamespace, $contextName): array {
             $possibleFiles = scandir($path);
 
-            function endsWith(string $needle, string $haystack): bool
-            {
-                $length = strlen($needle);
-                if ($length === 0) {
-                    return true;
-                }
-
-                return substr($haystack, -$length) === $needle;
-            }
-
-            $files = filter(static fn (string $file): bool => endsWith('Type.php', $file), $possibleFiles);
+            $files = filter(static fn (string $file): bool => self::endsWith('Type.php', $file), $possibleFiles);
 
             $namespaces = map(
                 static function (string $file) use ($path, $rootNamespace, $contextName): string {
@@ -82,5 +72,15 @@ final class DbalTypesSearcher
 
             return array_merge($totalNamespaces, $namespaces);
         };
+    }
+
+    private static function endsWith(string $needle, string $haystack): bool
+    {
+        $length = strlen($needle);
+        if ($length === 0) {
+            return true;
+        }
+
+        return substr($haystack, -$length) === $needle;
     }
 }
