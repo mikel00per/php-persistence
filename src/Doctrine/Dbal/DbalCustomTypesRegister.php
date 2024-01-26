@@ -8,7 +8,7 @@ use Doctrine\DBAL\Types\Type;
 
 use function Lambdish\Phunctional\each;
 
-final class DbalCustomTypesRegistrar
+final class DbalCustomTypesRegister
 {
     private static bool $initialized = false;
 

@@ -15,7 +15,7 @@ use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
 use Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver;
 use Doctrine\ORM\ORMSetup;
 use RuntimeException;
-use Shared\Infrastructure\Doctrine\Dbal\DbalCustomTypesRegistrar;
+use Shared\Infrastructure\Doctrine\Dbal\DbalCustomTypesRegister;
 
 use function Lambdish\Phunctional\dissoc;
 
@@ -35,7 +35,7 @@ final class DoctrineEntityManagerFactory
             self::generateDatabaseIfNotExists($parameters, $schemaFile);
         }
 
-        DbalCustomTypesRegistrar::register($dbalCustomTypesClasses);
+        DbalCustomTypesRegister::register($dbalCustomTypesClasses);
 
         $config = self::createConfiguration($contextPrefixes, $isDevMode);
 
