@@ -28,6 +28,7 @@
         "php": "^8.2",
         "doctrine/migrations": "^3",
         "doctrine/orm": "^2",
+        "doctrine/sql-formatter": "^1",
         "mikelooper/container-settings": "^0",
         "mikelooper/ddd-cqrs": "^0",
         "symfony/cache": "^7"
