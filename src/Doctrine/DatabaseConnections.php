@@ -11,9 +11,9 @@ use Tests\Shared\Infrastructure\Shared\Doctrine\MySqlDatabaseCleaner;
 use function Lambdish\Phunctional\apply;
 use function Lambdish\Phunctional\each;
 
-final class DatabaseConnections
+final readonly class DatabaseConnections
 {
-    private readonly array $connections;
+    private array $connections;
 
     public function __construct(iterable $connections)
     {
